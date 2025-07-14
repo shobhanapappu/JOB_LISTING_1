@@ -476,6 +476,19 @@ class JobAutomationGUI:
                 self.send_message('log', text="🌐 Navigating to job listings page...")
                 page.goto('https://central.childcare.go.kr/ccef/job/JobOfferSlPL.jsp?flag=SlPL')
                 page.wait_for_load_state("networkidle")
+                # Wait a moment for the filter to apply
+                
+                # Change the "Deadline" filter to "Hiring" (구인중)
+                print("Changing deadline filter to 'Hiring'...")
+                page.select_option('#endYn', value='N')
+                print("Filter changed successfully")
+
+                time.sleep(1)
+                
+                # Click the search button
+                print("Clicking search button...")
+                page.click('a[href="#fnSearch"][onclick*="fnSearch"]')
+                print("Search button clicked")
                 
                 while not self.stop_requested and not self.date_cutoff_reached:
                     self.send_message('log', text=f"📄 Processing page {self.current_page}")
